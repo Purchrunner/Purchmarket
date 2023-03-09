@@ -32,7 +32,9 @@ jobs:
           output_location: "out" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: # Add environment variables here
-          WORDPRESS_API_URL: https://purchwp.azurewebsites.net/graphql
+          WORDPRESS_API_URL: "https://purchwp.azurewebsites.net/graphql"
+          NEXT_PUBLIC_WORDPRESS_API_URL: "https://purchwp.azurewebsites.net/graphql"
+          NEXT_PUBLIC_BASE_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
