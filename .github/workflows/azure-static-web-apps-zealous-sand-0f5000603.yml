@@ -35,6 +35,7 @@ jobs:
           WORDPRESS_API_URL: "https://purchwp.azurewebsites.net/graphql"
           NEXT_PUBLIC_WORDPRESS_API_URL: "https://purchwp.azurewebsites.net/graphql"
           NEXT_PUBLIC_BASE_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
+          GOOGLE_ANALYTICS_ID: "G-DCHPCF2P9B"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
