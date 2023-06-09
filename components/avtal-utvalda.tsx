@@ -1,71 +1,24 @@
-﻿import { gql, useQuery } from "@apollo/client";
-import useAuth, { User } from "../hooks/useAuth";
+﻿import useAuth, { User } from "../hooks/useAuth";
 import AvtalCard from "./avtal-card";
 
-const PRODUCT_QUERY = gql`
-  query Avtal {
-    products {
-      edges {
-        node {
-          date
-          excerpt
-          id
-          productId
-          title
-          slug
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-            }
-          }
-          productCategories {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-          productTags {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-          avtalstyp {
-            valjkund {
-              id
-            }
-            leverantor {
-              ... on Leverantorer {
-                title
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export default function AvtalUtvalda() {
-  const { data, loading, error } = useQuery(PRODUCT_QUERY);
+export default function AvtalUtvalda({ favorite, setFavorite, products }) {
   const { user } = useAuth();
   const { id } = user as User;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const filteredProducts = products.edges.filter(
+    (item) => item.node.avtalstyp.valjkund !== null
+  );
 
-  const allProducts = data.products.edges;
+  const filteredProductsWithIds = filteredProducts.filter((item) =>
+    item.node.avtalstyp.valjkund?.some((item) => item.id.includes(id))
+  );
+
+  console.log(filteredProductsWithIds);
 
   return (
     <div>
-      {allProducts
-        .filter((item) => item.node.avtalstyp.valjkund?.id === id)
-        .map((item) => (
+      {filteredProductsWithIds.length ? (
+        filteredProductsWithIds.map((item) => (
           <AvtalCard
             key={item.node.id}
             productId={item.node.id}
@@ -74,8 +27,13 @@ export default function AvtalUtvalda() {
             slug={item.node.slug}
             categories={item.node.productCategories}
             sourceUrl={item.node.featuredImage.node.sourceUrl}
+            favorite={favorite}
+            setFavorite={setFavorite}
           />
-        ))}
+        ))
+      ) : (
+        <p>Inga utvalda avtal</p>
+      )}
     </div>
   );
 }

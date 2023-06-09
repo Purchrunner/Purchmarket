@@ -11,7 +11,6 @@ module.exports = {
     scrollRestoration: true,
   },
   images: {
-    unoptimized: true,
     domains: [
       process.env.WORDPRESS_API_URL.match(/(?!(w+)\.)\w*(?:\w+\.)+\w+/)[0], // Valid WP Image domain.
       "0.gravatar.com",
@@ -19,6 +18,12 @@ module.exports = {
       "2.gravatar.com",
       "secure.gravatar.com",
     ],
+  },
+};
+
+const nextConfig = {
+  env: {
+    REVALIDATION_TOKEN: process.env.REVALIDATION_TOKEN,
   },
 };
 

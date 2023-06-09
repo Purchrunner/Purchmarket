@@ -1,35 +1,36 @@
 ﻿import Image from "next/image";
 import Container from "../../components/container";
-import { getAllAvtal, getCategories, getWishList } from "../../lib/api";
-import AvtalCard from "../../components/avtal-card";
+import {
+  getAllAvtal,
+  getCategories,
+  getHeroAvtal,
+  getWishList,
+} from "../../lib/api";
 import { ChangeEvent, useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Checkbox from "../../components/checkbox";
 import LoadmoreButton from "../../components/loadmore-button";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { gql, useQuery } from "@apollo/client";
-import Loader from "../../components/Loader";
 import { Toaster } from "react-hot-toast";
+import AvtalFilterlist from "../../components/avtal-filterlist";
+import AuthContent from "../../components/AuthContent";
+import useAuth from "../../hooks/useAuth";
+import UnAuthContent from "../../components/UnAuthContent";
+import AvtalFilterlistLogout from "../../components/avtal-filterlist-logout";
 
-const AVTAL_QUERY = gql`
-  query Leverantorer {
-    redigera(id: "cG9zdDo0MTY=") {
-      id
-      redigera {
-        heroRubrik
-        heroBild {
-          sourceUrl
-        }
-      }
-    }
-  }
-`;
-
-export default function Avtal({ products, allCategories, wishList }) {
+export default function Avtal({
+  products,
+  allCategories,
+  wishList,
+  heroAvtal,
+}) {
   /*   const taggs = products.edges.map((item) =>
     item.node.productTags.edges.map((item) => item.node.name.toLowerCase())
   );
   const tagscontact = taggs.flat(1);*/
+
+  const { loggedIn } = useAuth();
+
   const [favorite, setFavorite] = useState(wishList.productIds);
 
   useEffect(() => {
@@ -78,12 +79,7 @@ export default function Avtal({ products, allCategories, wishList }) {
     }
   }, [filtercategories]);
 
-  const { data, loading, error } = useQuery(AVTAL_QUERY);
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error.message}</p>;
-
-  const { heroRubrik, heroBild } = data.redigera.redigera;
+  const { heroRubrik, heroBild } = heroAvtal.redigera;
 
   return (
     <>
@@ -164,54 +160,32 @@ export default function Avtal({ products, allCategories, wishList }) {
               ))}
           </div>
           <div className="col-span-3">
-            {filteredAvtal.length ? (
-              filteredAvtal
-                .filter((item) => item.node.avtalstyp.synligtKund === null)
-                .slice(0, postNum)
-                .map((item) => {
-                  if (
-                    !isAllCategory &&
-                    item.node.productCategories.edges
-                      .map((item) => item.node.name)
-                      .some((category) => filtercategories.includes(category))
-                  ) {
-                    return (
-                      <AvtalCard
-                        key={item.node.id}
-                        productId={item.node.productId}
-                        title={item.node.title}
-                        excerpt={item.node.excerpt}
-                        slug={item.node.slug}
-                        categories={item.node.productCategories}
-                        sourceUrl={item.node.featuredImage?.node.sourceUrl}
-                        setFavorite={setFavorite}
-                        favorite={favorite}
-                      />
-                    );
-                  } else if (isAllCategory) {
-                    return (
-                      <AvtalCard
-                        key={item.node.id}
-                        productId={item.node.productId}
-                        title={item.node.title}
-                        excerpt={item.node.excerpt}
-                        slug={item.node.slug}
-                        categories={item.node.productCategories}
-                        sourceUrl={item.node.featuredImage?.node.sourceUrl}
-                        setFavorite={setFavorite}
-                        favorite={favorite}
-                      />
-                    );
-                  }
-                })
+            {loggedIn ? (
+              <AuthContent>
+                <AvtalFilterlist
+                  filteredAvtal={filteredAvtal}
+                  isAllCategory={isAllCategory}
+                  postNum={postNum}
+                  favorite={favorite}
+                  setFavorite={setFavorite}
+                  filtercategories={filtercategories}
+                />
+              </AuthContent>
             ) : (
-              <p className="text-center">Inga avtal hittades...</p>
+              <UnAuthContent>
+                <AvtalFilterlistLogout
+                  filteredAvtal={filteredAvtal}
+                  isAllCategory={isAllCategory}
+                  postNum={postNum}
+                  favorite={favorite}
+                  setFavorite={setFavorite}
+                  filtercategories={filtercategories}
+                />
+              </UnAuthContent>
             )}
-            <LoadmoreButton
-              number={postNum}
-              setNumber={setPostNum}
-              allPosts={products}
-            />
+            {postNum < filteredAvtal.length && isAllCategory ? (
+              <LoadmoreButton postNum={postNum} setNumber={setPostNum} />
+            ) : null}
           </div>
         </div>
       </Container>
@@ -223,6 +197,10 @@ export async function getStaticProps() {
   const products = await getAllAvtal();
   const allCategories = await getCategories();
   const wishList = await getWishList();
+  const heroAvtal = await getHeroAvtal();
 
-  return { props: { products, allCategories, wishList }, revalidate: 1 };
+  return {
+    props: { products, allCategories, wishList, heroAvtal },
+    revalidate: 5,
+  };
 }

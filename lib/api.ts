@@ -70,7 +70,7 @@ export async function getWishList() {
   return data?.getWishList;
 }
 
-export async function getAllPostsForHome(preview) {
+export async function getAllPostsForHome() {
   const data = await fetchAPI(
     `
     query AllPosts {
@@ -107,13 +107,7 @@ export async function getAllPostsForHome(preview) {
         }
       }
     }
-  `,
-    {
-      variables: {
-        onlyEnabled: !preview,
-        preview,
-      },
-    }
+  `
   );
 
   return data?.posts;
@@ -122,7 +116,7 @@ export async function getAllPostsForHome(preview) {
 export async function getAllAvtal() {
   const data = await fetchAPI(`
     query Avtal {
-      products {
+      products(where: {orderby: {field: MENU_ORDER, order: ASC}}, first: 10000) {
         edges {
           node {
             date
@@ -163,7 +157,6 @@ export async function getAllAvtal() {
                   title
                 }
               }
-              synligtKund
             }
             sok {
               sokord
@@ -179,7 +172,7 @@ export async function getAllAvtal() {
 export async function getAllRapporter() {
   const data = await fetchAPI(`
     query Rapporter {
-      allRapporter {
+      allRapporter(first: 10000) {
         edges {
           node {
             file {
@@ -209,7 +202,7 @@ export async function getAllRapporter() {
 export async function getAllLeverantorer() {
   const data = await fetchAPI(`
     query Leverantorer {
-      allLeverantorer (first:100) {
+      allLeverantorer(first: 10000) {
         edges {
           node {
             excerpt
@@ -299,11 +292,104 @@ export async function getAvtal(slug) {
           namn
           orderEmail
           webbshop
+          avtalsbild {
+            sourceUrl
+          }
         }
       }
     }
   `);
   return data?.product;
+}
+
+export async function getIndex() {
+  const data = await fetchAPI(`
+    {
+      redigera(id: "cG9zdDo0MTI=") {
+        id
+        redigera {
+          heroText
+          heroRubrik
+          heroBild {
+            sourceUrl
+            mediaItemUrl
+            mediaType
+          }
+        }
+        landingSection {
+          omossRubrik
+          omossText
+          omossBild {
+            sourceUrl
+          }
+          rapporterRubrik
+          rapporterText
+          rapporterBild {
+            sourceUrl
+          }
+        }
+      }
+    }
+  `);
+  return data?.redigera;
+}
+
+export async function getHeroAvtal() {
+  const data = await fetchAPI(`
+    {
+      redigera(id: "cG9zdDo0MTY=") {
+        id
+        redigera {
+          heroRubrik
+          heroBild {
+            sourceUrl
+            mediaItemUrl
+            mediaType
+          }
+        }
+      }
+    }
+  `);
+  return data?.redigera;
+}
+
+export async function getHeroLeverantor() {
+  const data = await fetchAPI(`
+    {
+      redigera(id: "cG9zdDo0MTQ=") {
+        id
+        redigera {
+          heroRubrik
+          heroBild {
+            sourceUrl
+            mediaItemUrl
+            mediaType
+          }
+        }
+      }
+    }
+  `);
+  return data?.redigera;
+}
+
+export async function getHeroRapporter() {
+  const data = await fetchAPI(`
+    {
+      redigera(id: "cG9zdDo0MTM=") {
+        id
+        redigera {
+          heroText
+          heroRubrik
+          heroBild {
+            sourceUrl
+            mediaItemUrl
+            mediaType
+          }
+        }
+      }
+    }
+  `);
+  return data?.redigera;
 }
 
 export async function getPostAndMorePosts(slug, preview, previewData) {
@@ -510,7 +596,7 @@ export async function getKundNummer() {
 export async function getCategories() {
   const data = await fetchAPI(`
     query Categories {
-      productCategories {
+      productCategories(first: 10000) {
         edges {
           node {
             name
