@@ -1,75 +1,324 @@
 ﻿import { gql, useQuery } from "@apollo/client";
 import Breadcrumbs from "../components/Breadcrumbs";
+import Loader from "../components/Loader";
+import Container from "../components/container";
 
-const CURRENT_USER_QUERY = gql`
-  query CurrentUserInfo {
+const VIEWER = gql`
+  query viewer {
     viewer {
       kundnummer {
+        ajProdukter
+        arjo
+        atta45
+        bard
+        bixia
         catell
-        juzo
+        convini
+        dibTravel
+        ekopost
+        elgiganten
+        etac
+        hartmann
+        hejco
+        hlrKonsulten
+        inkclub
+        inputInterior
+        interflora
+        labteamet
+        lojer
+        magnussonFreij
+        mathem
+        medelaMedical
         medema
-        mediqSverige
+        onemedSverige
+        rekomo
+        rts
+        rydens
+        sakra
+        securitasDirect
+        sj
+        sjobloms
+        synlab
+        synoptik
+        telness
+        tgInstrument
+        vingmed
       }
     }
   }
 `;
 
 export default function KundNummer() {
-  const { data, loading, error } = useQuery(CURRENT_USER_QUERY);
-
-  if (loading)
-    return (
-      <div className="py-16 text-center">
-        <div role="status">
-          <svg
-            aria-hidden="true"
-            className="mr-2 inline h-8 w-8 animate-spin fill-blue-600 text-gray-200"
-            viewBox="0 0 100 101"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-              fill="currentColor"
-            />
-            <path
-              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-              fill="currentFill"
-            />
-          </svg>
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
-
+  const { data, loading, error } = useQuery(VIEWER);
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error.message}</p>;
+  const {
+    ajProdukter,
+    arjo,
+    atta45,
+    bard,
+    bixia,
+    catell,
+    convini,
+    dibTravel,
+    ekopost,
+    elgiganten,
+    etac,
+    hartmann,
+    hejco,
+    hlrKonsulten,
+    inkclub,
+    inputInterior,
+    interflora,
+    labteamet,
+    lojer,
+    magnussonFreij,
+    mathem,
+    medelaMedical,
+    medema,
+    onemedSverige,
+    rekomo,
+    rts,
+    rydens,
+    sakra,
+    securitasDirect,
+    sj,
+    sjobloms,
+    synlab,
+    synoptik,
+    telness,
+    tgInstrument,
+    vingmed,
+  } = data.viewer.kundnummer;
 
-  const { catell, juzo, medema, mediqSverige } = data.viewer.kundnummer;
+  console.log(data.viewer.kundnummer);
 
   return (
     <>
       <Breadcrumbs />
-      <div className="mx-auto my-16 max-w-2xl rounded-3xl bg-[#DFEDFF] p-16">
-        <h1 className="mb-8 text-center text-4xl font-black leading-tight">
-          Kundnummer
-        </h1>
-        <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
-          <b>Catell</b>
-          <span>{catell}</span>
+      <Container>
+        <div className="mx-auto my-16 max-w-2xl rounded-3xl bg-[#DFEDFF] p-16">
+          <h1 className="mb-8 text-center text-4xl font-black leading-tight">
+            Kundnummer
+          </h1>
+          {ajProdukter && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>AJ Produkter</b>
+              <span>{ajProdukter}</span>
+            </div>
+          )}
+          {arjo && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Arjo</b>
+              <span>{arjo}</span>
+            </div>
+          )}
+          {atta45 && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Åtta 45</b>
+              <span>{atta45}</span>
+            </div>
+          )}
+          {bard && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Bard</b>
+              <span>{bard}</span>
+            </div>
+          )}
+          {bixia && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Bixia</b>
+              <span>{bixia}</span>
+            </div>
+          )}
+          {catell && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Catell</b>
+              <span>{catell}</span>
+            </div>
+          )}
+          {convini && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Convini</b>
+              <span>{convini}</span>
+            </div>
+          )}
+          {dibTravel && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>DIB Travel</b>
+              <span>{dibTravel}</span>
+            </div>
+          )}
+          {ekopost && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Ekopost</b>
+              <span>{ekopost}</span>
+            </div>
+          )}
+          {elgiganten && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Elgiganten</b>
+              <span>{elgiganten}</span>
+            </div>
+          )}
+          {etac && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Etac</b>
+              <span>{etac}</span>
+            </div>
+          )}
+          {hartmann && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Hartmann</b>
+              <span>{hartmann}</span>
+            </div>
+          )}
+          {hejco && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Hejco</b>
+              <span>{hejco}</span>
+            </div>
+          )}
+          {hlrKonsulten && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>HLR Konsulten</b>
+              <span>{hlrKonsulten}</span>
+            </div>
+          )}
+          {inkclub && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Inkclub</b>
+              <span>{inkclub}</span>
+            </div>
+          )}
+          {inputInterior && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Input Interior</b>
+              <span>{inputInterior}</span>
+            </div>
+          )}
+          {interflora && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Interflora</b>
+              <span>{interflora}</span>
+            </div>
+          )}
+          {labteamet && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Labteamet</b>
+              <span>{labteamet}</span>
+            </div>
+          )}
+          {lojer && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Lojer</b>
+              <span>{lojer}</span>
+            </div>
+          )}
+          {magnussonFreij && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Magnusson Freij</b>
+              <span>{magnussonFreij}</span>
+            </div>
+          )}
+          {mathem && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Mathem</b>
+              <span>{mathem}</span>
+            </div>
+          )}
+          {medelaMedical && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Medela Medical</b>
+              <span>{medelaMedical}</span>
+            </div>
+          )}
+          {medema && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Medema</b>
+              <span>{medema}</span>
+            </div>
+          )}
+          {onemedSverige && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>OneMed Sverige</b>
+              <span>{onemedSverige}</span>
+            </div>
+          )}
+          {rekomo && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Rekomo</b>
+              <span>{rekomo}</span>
+            </div>
+          )}
+          {rts && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Rts</b>
+              <span>{rts}</span>
+            </div>
+          )}
+          {rydens && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Rydens</b>
+              <span>{rydens}</span>
+            </div>
+          )}
+          {sakra && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Säkra</b>
+              <span>{sakra}</span>
+            </div>
+          )}
+          {securitasDirect && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Securitas Direct</b>
+              <span>{securitasDirect}</span>
+            </div>
+          )}
+          {sj && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Sj</b>
+              <span>{sj}</span>
+            </div>
+          )}
+          {sjobloms && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Sjöbloms</b>
+              <span>{sjobloms}</span>
+            </div>
+          )}
+          {synlab && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Synlab</b>
+              <span>{synlab}</span>
+            </div>
+          )}
+          {synoptik && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Synoptik</b>
+              <span>{synoptik}</span>
+            </div>
+          )}
+          {telness && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Telness</b>
+              <span>{telness}</span>
+            </div>
+          )}
+          {tgInstrument && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>TG Instrument</b>
+              <span>{tgInstrument}</span>
+            </div>
+          )}
+          {vingmed && (
+            <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
+              <b>Vingmed</b>
+              <span>{vingmed}</span>
+            </div>
+          )}
         </div>
-        <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
-          <b>Juzo</b>
-          <span>{juzo}</span>
-        </div>
-        <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
-          <b>Medema</b>
-          <span>{medema}</span>
-        </div>
-        <div className="flex justify-between border border-transparent border-b-blue-200 p-4">
-          <b>MediqSverige</b>
-          <span>{mediqSverige}</span>
-        </div>
-      </div>
+      </Container>
     </>
   );
 }

@@ -1,17 +1,29 @@
 ﻿import Container from "../components/container";
-import { getAllRapporter, getHeroRapporter } from "../lib/api";
-import useAuth from "../hooks/useAuth";
+import { getHeroRapporter } from "../lib/api";
 import RapportLogin from "../components/rapport-login";
-import UnAuthContent from "../components/UnAuthContent";
 import Rapporter from "../components/rapporter";
-import AuthContent from "../components/AuthContent";
 import PageCover from "../components/page-cover";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { useSession } from "next-auth/react";
+import { gql, useQuery } from "@apollo/client";
+import Loader from "../components/Loader";
 
-export default function RapporterPage({ allRapporter, heroRapporter }) {
-  const { loggedIn } = useAuth();
+const VIEWER = gql`
+  query Viewer {
+    viewer {
+      id
+    }
+  }
+`;
+
+export default function RapporterPage({ heroRapporter }) {
+  const { status } = useSession();
 
   const { heroText, heroRubrik, heroBild } = heroRapporter.redigera;
+
+  const { data, loading, error } = useQuery(VIEWER);
+  if (loading) return <Loader />;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -22,24 +34,19 @@ export default function RapporterPage({ allRapporter, heroRapporter }) {
         bild={heroBild.sourceUrl}
         type={heroBild.mediaType}
       />
-      {loggedIn ? (
+      {status === "authenticated" ? (
         <Container>
-          <AuthContent>
-            <Rapporter />
-          </AuthContent>
+          <Rapporter viewer={data.viewer.id} />
         </Container>
       ) : (
-        <UnAuthContent>
-          <RapportLogin />
-        </UnAuthContent>
+        <RapportLogin />
       )}
     </>
   );
 }
 
 export async function getStaticProps() {
-  const allRapporter = await getAllRapporter();
   const heroRapporter = await getHeroRapporter();
 
-  return { props: { allRapporter, heroRapporter } };
+  return { props: { heroRapporter }, revalidate: 10 };
 }

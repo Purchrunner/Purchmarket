@@ -1,38 +1,46 @@
-﻿import useAuth, { User } from "../hooks/useAuth";
+﻿import { gql, useQuery } from "@apollo/client";
 import AvtalCard from "./avtal-card";
+import Loader from "./Loader";
 
-export default function AvtalUtvalda({ favorite, setFavorite, products }) {
-  const { user } = useAuth();
-  const { id } = user as User;
+const WISHLIST = gql`
+  query WishList {
+    getWishList {
+      productIds
+    }
+  }
+`;
 
+export default function AvtalUtvalda({ viewer, products }) {
   const filteredProducts = products.edges.filter(
     (item) => item.node.avtalstyp.valjkund !== null
   );
 
   const filteredProductsWithIds = filteredProducts.filter((item) =>
-    item.node.avtalstyp.valjkund?.some((item) => item.id.includes(id))
+    item.node.avtalstyp.valjkund?.some((item) => item.id.includes(viewer))
   );
 
-  console.log(filteredProductsWithIds);
+  const { data, loading, error } = useQuery(WISHLIST);
+
+  if (loading) return <Loader />;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
       {filteredProductsWithIds.length ? (
         filteredProductsWithIds.map((item) => (
           <AvtalCard
-            key={item.node.id}
-            productId={item.node.id}
-            title={item.node.title}
-            excerpt={item.node.excerpt}
-            slug={item.node.slug}
-            categories={item.node.productCategories}
-            sourceUrl={item.node.featuredImage.node.sourceUrl}
-            favorite={favorite}
-            setFavorite={setFavorite}
+            key={item?.node?.id}
+            productId={item?.node?.id}
+            title={item?.node?.title}
+            excerpt={item?.node?.excerpt}
+            slug={item?.node?.slug}
+            categories={item?.node?.productCategories}
+            sourceUrl={item?.node?.featuredImage?.node?.sourceUrl}
+            wishList={data?.getWishList.productIds}
           />
         ))
       ) : (
-        <p>Inga utvalda avtal</p>
+        <p>Inga avtal att visa</p>
       )}
     </div>
   );

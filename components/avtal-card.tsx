@@ -1,8 +1,7 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
-import useAuth from "../hooks/useAuth";
 import StarButton from "./star-button";
-import AuthContent from "./AuthContent";
+import { useSession } from "next-auth/react";
 
 interface Props {
   title: string;
@@ -12,8 +11,7 @@ interface Props {
   sourceUrl?: string;
   className?: string;
   productId?: number;
-  favorite?: number[];
-  setFavorite?: any;
+  wishList?: any;
 }
 
 export default function AvtalCard({
@@ -24,10 +22,9 @@ export default function AvtalCard({
   sourceUrl,
   className,
   productId,
-  favorite,
-  setFavorite,
+  wishList,
 }: Props) {
-  const { loggedIn } = useAuth();
+  const { status } = useSession();
 
   const cardImage = (
     <Image
@@ -53,10 +50,10 @@ export default function AvtalCard({
   };
 
   return (
-    <div className={`mb-6 rounded-3xl bg-[#DFEDFF] p-8 sm:flex ${className}`}>
+    <div className={`mb-6 rounded-3xl bg-[#DFEDFF] p-8 md:flex ${className}`}>
       {sourceUrl !== undefined ? (
-        <div className="relative mb-4 h-80 w-full shrink-0 sm:mb-0 sm:mr-8 sm:h-48 sm:w-48">
-          {loggedIn ? (
+        <div className="relative mb-4 h-80 w-full shrink-0 md:mb-0 md:mr-8 md:h-48 md:w-48">
+          {status === "authenticated" ? (
             <Link
               href={`/avtal/${slug}`}
               className="relative block h-full w-full"
@@ -71,19 +68,12 @@ export default function AvtalCard({
         </div>
       ) : null}
       <div className="relative w-full">
-        {loggedIn ? (
-          <AuthContent>
-            <StarButton
-              icon={true}
-              productId={productId}
-              favorite={favorite}
-              setFavorite={setFavorite}
-            />
-          </AuthContent>
+        {status === "authenticated" ? (
+          <StarButton icon={true} productId={productId} wishList={wishList} />
         ) : (
           ""
         )}
-        {loggedIn ? (
+        {status === "authenticated" ? (
           <Link href={`/avtal/${slug}`}>
             <h2 className="mb-4 pr-6 text-2xl font-black">{title}</h2>
           </Link>

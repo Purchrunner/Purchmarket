@@ -1,5 +1,4 @@
-﻿import UnAuthContent from "../components/UnAuthContent";
-import LogInForm from "../components/LogInForm";
+﻿import LogInForm from "../components/LogInForm";
 import Container from "../components/container";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Link from "next/link";
@@ -17,11 +16,9 @@ export default function LogIn() {
             <p className="leading mb-8 text-xl">
               Fyll i uppgifter nedan för att logga in på ditt konto.
             </p>
-            <UnAuthContent>
-              <LogInForm />
-            </UnAuthContent>
+            <LogInForm />
           </div>
-          <div className=" mx-auto flex max-w-2xl flex-col items-center justify-center rounded-3xl bg-[#FFDCB8] p-8">
+          <div className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-3xl bg-[#FFDCB8] p-8">
             <h1 className="mb-8 text-4xl font-black leading-tight">
               Saknar du konto?
             </h1>
@@ -30,7 +27,7 @@ export default function LogIn() {
             </p>
             <Link
               className="rounded-full bg-[#17375E] p-4 px-8 font-bold text-white"
-              href="/kontakta-oss"
+              href="/om-oss/vara-medarbetare"
             >
               Kontakta oss
             </Link>
