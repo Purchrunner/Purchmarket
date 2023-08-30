@@ -23,7 +23,18 @@ return (
   <ApolloProvider client={client}>
     <main className={`pt-20 ${lato.variable} font-sans`}>
       <Layout>
-        <Script
+      {/* Google tag (gtag.js) */}
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"></Script>
+      <Script>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-ENL64L84GM')
+        `};
+      </Script>
+        {/* <Script
         strategy="afterInteractive"
         src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"
         />
@@ -34,7 +45,7 @@ return (
           gtag('js', new Date());
           gtag('config', 'G-ENL64L84GM');
           `}
-        </Script>
+        </Script> */}
         <Component {...pageProps} />
       </Layout>
     </main>
