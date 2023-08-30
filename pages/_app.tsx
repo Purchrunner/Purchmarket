@@ -25,14 +25,14 @@ return (
       <Layout>
         <Script
         strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-7Z3VZLCSZX"
+        src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments)}
           gtag('js', new Date());
-          gtag('config', 'G-7Z3VZLCSZX');
+          gtag('config', 'G-ENL64L84GM');
           `}
         </Script>
         <Component {...pageProps} />
