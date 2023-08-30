@@ -20,25 +20,25 @@ variable: "--font-lato",
 function MyApp({ Component, pageProps }: AppProps) {
 return (
 <SessionProvider session={pageProps.session}>
-<ApolloProvider client={client}>
-<main className={`pt-20 ${lato.variable} font-sans`}>
-<Layout>
-<Script
-strategy="afterInteractive"
-src="https://www.googletagmanager.com/gtag/js?id=G-7Z3VZLCSZX"
-/>
-<Script id="google-analytics" strategy="afterInteractive">
-  {`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)}
-  gtag('js', new Date());
-  gtag('config', 'G-7Z3VZLCSZX');
-  `}
-</Script>
-<Component {...pageProps} />
-</Layout>
-</main>
-</ApolloProvider>
+  <ApolloProvider client={client}>
+    <main className={`pt-20 ${lato.variable} font-sans`}>
+      <Layout>
+        <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-7Z3VZLCSZX"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
+          gtag('config', 'G-7Z3VZLCSZX');
+          `}
+        </Script>
+        <Component {...pageProps} />
+      </Layout>
+    </main>
+  </ApolloProvider>
 </SessionProvider>
 );
 }
