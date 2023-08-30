@@ -7,7 +7,7 @@ import Layout from "../components/layout";
 import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 import Script from "next/script";
-
+import Head from 'next/head';
 
 const lato = Lato({
 weight: ["400", "700", "900"],
@@ -24,28 +24,30 @@ return (
     <main className={`pt-20 ${lato.variable} font-sans`}>
       <Layout>
       {/* Google tag (gtag.js) */}
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"></Script>
-      <Script>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-ENL64L84GM')
-        `};
-      </Script>
-        {/* <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
+      <Head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"></Script>
+        <Script>
           {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)}
-          gtag('js', new Date());
-          gtag('config', 'G-ENL64L84GM');
-          `}
-        </Script> */}
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-ENL64L84GM')
+          `};
+        </Script>
+          {/* <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)}
+            gtag('js', new Date());
+            gtag('config', 'G-ENL64L84GM');
+            `}
+          </Script> */}
+      </Head>
         <Component {...pageProps} />
       </Layout>
     </main>
