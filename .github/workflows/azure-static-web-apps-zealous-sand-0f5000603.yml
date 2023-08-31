@@ -37,7 +37,7 @@ jobs:
           NEXT_PUBLIC_BASE_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
           NEXT_PUBLIC_NEXTAUTH_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
           NEXT_PUBLIC_NEXTAUTH_SECRET: "607e287278261706a1562e57977996c0"
-          GOOGLE_ANALYTICS_ID: "G-ENL64L84GM"
+          GOOGLE_ANALYTICS_ID: "G-DCHPCF2P9B"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -50,3 +50,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_SAND_0F5000603 }}
           action: "close"
+      - script: echo "The value is: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_SAND_0F5000603 }}"
