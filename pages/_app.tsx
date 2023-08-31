@@ -25,14 +25,14 @@ return (
         {/* Google tag (gtag.js) */}
         <Script
         strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-ENL64L84GM"
+        src="https://www.googletagmanager.com/gtag/js?id=G-DCHPCF2P9B"
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments)}
           gtag('js', new Date());
-          gtag('config', 'G-ENL64L84GM');
+          gtag('config', 'G-DCHPCF2P9B');
           `}
         </Script>
         <Component {...pageProps} />
