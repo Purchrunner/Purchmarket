@@ -16,6 +16,7 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v2
+      - run: echo "Hello world"
         with:
           submodules: true
       - name: Build And Deploy
