@@ -16,7 +16,6 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v2
-      - run: echo "Hello world"
         with:
           submodules: true
       - name: Build And Deploy
@@ -45,7 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Close Pull Request Job
     steps:
-      # - script: echo "The value is: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_SAND_0F5000603 }}"
       - name: Close Pull Request
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
