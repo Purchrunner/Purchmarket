@@ -38,6 +38,9 @@ jobs:
           NEXT_PUBLIC_NEXTAUTH_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
           NEXT_PUBLIC_NEXTAUTH_SECRET: "607e287278261706a1562e57977996c0"
           GOOGLE_ANALYTICS_ID: "G-FT68091J0R"
+      - name: Print Secret for Debugging
+        run: |
+          echo "Secret value: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_SAND_0F5000603 }}"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
