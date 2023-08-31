@@ -26,17 +26,17 @@ return (
     <main className={`pt-20 ${lato.variable} font-sans`}>
       <Layout>
         {/* Google tag (gtag.js) */}
-        <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-DCHPCF2P9B"
-        />
+          <Script
+            strategy="afterInteractive"
+            src="https://www.googletagmanager.com/gtag/js?id=G-CYS4DWQREG"
+          />
         <Script id="google-analytics" strategy="afterInteractive">
-        {`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)}
-        gtag('js', new Date());
-        gtag('config', 'G-DCHPCF2P9B');
-        `}
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
+          gtag('config', 'G-CYS4DWQREG');
+          `}
         </Script>
       <Component {...pageProps} />
       </Layout>
