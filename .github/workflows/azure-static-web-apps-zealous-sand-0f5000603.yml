@@ -42,7 +42,7 @@ jobs:
           NEXT_PUBLIC_BASE_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
           NEXT_PUBLIC_NEXTAUTH_URL: "https://zealous-sand-0f5000603.2.azurestaticapps.net"
           NEXT_PUBLIC_NEXTAUTH_SECRET: "607e287278261706a1562e57977996c0"
-          GOOGLE_ANALYTICS_ID: "G-CYS4DWQREG"
+          GOOGLE_ANALYTICS_ID: "G-NMG663Z21H"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
