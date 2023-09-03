@@ -24,7 +24,7 @@ export default function Header() {
     { title: "Leverantörer", path: "/leverantorer" },
     { title: "Rapporter", path: "/rapporter" },
     { title: "Nyheter", path: "/nyheter" },
-    { title: "Om oss, ya'll", path: "/om-oss" },
+    { title: "Om oss, you know", path: "/om-oss" },
   ];
 
   return (
