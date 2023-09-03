@@ -20,6 +20,7 @@ export default function CoverImage({ title, coverImage, slug }: Props) {
               33vw"
       alt={`Cover Image for ${title}`}
       src={coverImage?.node.sourceUrl}
+      priority
       className={`h-auto w-full object-cover object-center ${
         slug ? "rounded-xl" : ""
       }`}
