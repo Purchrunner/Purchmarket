@@ -41,7 +41,8 @@ export default function Header() {
         </Link>
         <div className="flex md:order-2">
           <LoginBtn />
-          <button
+          {/* Check if below code can be removed */}
+          {/* <button
             onClick={handleNavCollapse}
             data-toggle="collapse"
             data-target="#navbar-sticky"
@@ -66,7 +67,7 @@ export default function Header() {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </button>
+          </button> */}
         </div>
         <div
           className={`${
@@ -81,8 +82,6 @@ export default function Header() {
                 path={path}
                 link={title}
                 isActive={isActive(path)}
-                isNavCollapsed={isNavCollapsed}
-                setIsNavCollapsed={setIsNavCollapsed}
               />
             ))}
             {menuItems?.edges?.map(({ node }) => (
@@ -91,8 +90,6 @@ export default function Header() {
                 path={node.path}
                 link={node.label}
                 isActive={isActive(node.path)}
-                isNavCollapsed={isNavCollapsed}
-                setIsNavCollapsed={setIsNavCollapsed}
               />
             ))}
           </ul>
