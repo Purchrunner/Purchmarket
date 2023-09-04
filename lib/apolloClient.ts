@@ -13,6 +13,8 @@ const authLink = setContext(async (_, { headers }) => {
   const session = await getSession();
   const token = session?.user?.name;
 
+  console.log('session', session);
+
   return {
     headers: {
       ...headers,
