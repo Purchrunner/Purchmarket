@@ -105,7 +105,6 @@ export default function AvtalListFilter({ products, productId }) {
               slug={item.node.slug}
               categories={item.node.productCategories}
               sourceUrl={item.node.featuredImage?.node.sourceUrl}
-              wishList={wishListData.getWishList.productIds}
             />
           ))}
       </div>
