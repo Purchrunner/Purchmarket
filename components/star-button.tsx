@@ -1,7 +1,6 @@
 ﻿import { gql, useMutation } from "@apollo/client";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const ADD_FAVORITE = gql`
@@ -24,17 +23,11 @@ const REMOVE_FAVORITE = gql`
   }
 `;
 
-type Props = {
-  productId: number;
-  icon: boolean;
-  wishList: number[];
-};
-
-export default function StarButton({ productId, icon, wishList }: Props) {
+export default function StarButton({ productId, icon, favorite, setFavorite }) {
   const [favoriteAdd] = useMutation(ADD_FAVORITE);
   const [favoriteRemove] = useMutation(REMOVE_FAVORITE);
 
-  const [favorite, setFavorite] = useState(wishList);
+  //const [favorite, setFavorite] = useState(wishList.productIds);
 
   //const router = useRouter();
 

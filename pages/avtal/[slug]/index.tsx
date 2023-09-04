@@ -3,33 +3,31 @@ import Container from "../../../components/container";
 import { getAllAvtal, getAvtal, getWishList } from "../../../lib/api";
 import FileDownloader from "../../../components/FileDownloader";
 import Link from "next/link";
+import useAuth from "../../../hooks/useAuth";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import AuthContent from "../../../components/AuthContent";
 import StarButton from "../../../components/star-button";
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "../../../components/Breadcrumbs";
+import AvtalCard from "../../../components/avtal-card";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
-import { gql, useQuery } from "@apollo/client";
-import Loader from "../../../components/Loader";
-import AvtalList from "../../../components/avtal-list";
-
-const WISHLIST = gql`
-  query WishList {
-    getWishList {
-      productIds
-    }
-  }
-`;
 
 export default function AvtalDetail({ product, products, wishList }) {
-  const { data, loading, error } = useQuery(WISHLIST);
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error.message}</p>;
-
   //const size = filesize(avtal.avtalPdf?.pdf?.fileSize);
-  const { status } = useSession();
+  const { loggedIn } = useAuth();
+
+  const [favorite, setFavorite] = useState(wishList?.productIds);
+
+  useEffect(() => {
+    const data = window.localStorage.getItem("SAVE_FAVORITE");
+    if (data !== null) setFavorite(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("SAVE_FAVORITE", JSON.stringify(favorite));
+  }, [favorite]);
 
   return (
     <>
@@ -77,12 +75,15 @@ export default function AvtalDetail({ product, products, wishList }) {
                   {product?.title}
                 </h1>
               </div>
-              {status === "authenticated" ? (
-                <StarButton
-                  icon={false}
-                  productId={product.productId}
-                  wishList={data?.getWishList.productIds}
-                />
+              {loggedIn ? (
+                <AuthContent>
+                  <StarButton
+                    icon={false}
+                    productId={product.productId}
+                    favorite={favorite}
+                    setFavorite={setFavorite}
+                  />
+                </AuthContent>
               ) : (
                 ""
               )}
@@ -92,8 +93,8 @@ export default function AvtalDetail({ product, products, wishList }) {
       </div>
       <Container>
         <h2 className="mb-4 text-4xl font-bold">Om avtalet</h2>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-12 md:col-span-6 lg:col-span-7 xl:col-span-8">
+        <div className="grid grid-cols-3 gap-8">
+          <div className="col-span-2">
             <div
               className="content mb-8"
               dangerouslySetInnerHTML={{ __html: product?.content }}
@@ -116,7 +117,7 @@ export default function AvtalDetail({ product, products, wishList }) {
                 />
               </>
             ) : null}
-            {status === "authenticated" ? (
+            {loggedIn ? (
               <Link
                 href="/kundnummer"
                 className="flex items-center font-bold text-[#17375E]"
@@ -137,7 +138,7 @@ export default function AvtalDetail({ product, products, wishList }) {
               </div>
             )}
           </div>
-          <div className="col-span-6 lg:col-span-5 xl:col-span-4">
+          <div>
             {product?.avtalsinfo?.namn && (
               <div className="rounded-lg bg-[#DFEDFF] p-8">
                 <h3 className="mb-4 text-xl font-bold">Kontaktinformation</h3>
@@ -287,7 +288,44 @@ export default function AvtalDetail({ product, products, wishList }) {
             )}
           </div>
         </div>
-        <AvtalList rubrik="Relaterade avtal" productId={product.productId} />
+        <div className="my-16 rounded-3xl bg-[#FFDCB8] px-16 py-10">
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="mb-2 text-4xl font-black leading-tight">
+              Relaterade avtal
+            </h1>
+            <Link
+              href="/avtal"
+              className="flex items-center font-bold text-[#17375E]"
+            >
+              Visa alla avtal
+              <ArrowRightIcon className="ml-2 h-6 w-6 text-[#17375E]" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-8">
+            {products?.edges
+              /* .filter((item) => item.node.avtalstyp.valjkund === "Alla") */
+              .filter(
+                (item) =>
+                  item.node.productId !== product.productId &&
+                  item.node.avtalstyp.valjkund === null
+              )
+              .slice(0, 2)
+              .map((item) => (
+                <AvtalCard
+                  className="bg-white shadow-lg"
+                  key={item.node.id}
+                  productId={item.node.productId}
+                  title={item.node.title}
+                  excerpt={item.node.excerpt}
+                  slug={item.node.slug}
+                  categories={item.node.productCategories}
+                  sourceUrl={item.node.featuredImage?.node.sourceUrl}
+                  favorite={favorite}
+                  setFavorite={setFavorite}
+                />
+              ))}
+          </div>
+        </div>
       </Container>
     </>
   );

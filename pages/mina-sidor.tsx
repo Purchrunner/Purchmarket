@@ -9,47 +9,32 @@ import {
   ArrowLeftOnRectangleIcon,
   Cog8ToothIcon,
 } from "@heroicons/react/24/outline";
+import AuthContent from "../components/AuthContent";
 import Link from "next/link";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
-import Loader from "../components/Loader";
 
 export default function Profile() {
-  const router = useRouter();
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      // The user is not authenticated, handle it here.
-      router.replace("/");
-    },
-  });
-
-  if (status === "loading") {
-    return <Loader />;
-  }
-
   return (
-    <div>
+    <AuthContent>
       <Breadcrumbs />
       <Container>
         <ProfileInfo />
         <div className="mb-16 flex justify-center">
           <Link
             href="/installningar"
-            className="mr-4 flex items-center rounded-full border border-gray-200 
+            className="mr-4 flex items-center rounded-full border border-gray-200
             bg-white px-8 py-3 font-bold hover:bg-gray-200"
           >
             <Cog8ToothIcon className="mr-2 h-6 w-6 text-gray-900" />
             Inställningar
           </Link>
-          <button
+          <Link
+            href="/logout"
             className="flex items-center rounded-full border border-gray-200 bg-white px-4 py-3 font-bold hover:bg-gray-200 sm:px-8"
-            onClick={() => signOut()}
           >
             <ArrowLeftOnRectangleIcon className="mr-2 h-6 w-6 text-gray-900" />
             Logga ut
-          </button>
+          </Link>
         </div>
         <div className="mb-16 grid grid-cols-1 gap-8  md:grid-cols-2 lg:grid-cols-4">
           <ProfileCard
@@ -78,6 +63,6 @@ export default function Profile() {
           />
         </div>
       </Container>
-    </div>
+    </AuthContent>
   );
 }

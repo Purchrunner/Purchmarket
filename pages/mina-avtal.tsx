@@ -1,99 +1,44 @@
-﻿﻿import AvtalUtvalda from "../components/avtal-utvalda";
+﻿﻿import { useEffect, useState } from "react";
+import AuthContent from "../components/AuthContent";
+import AvtalUtvalda from "../components/avtal-utvalda";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Container from "../components/container";
-import { useQuery, gql } from "@apollo/client";
-import Loader from "../components/Loader";
+import { getAllAvtal, getWishList } from "../lib/api";
 
-const PRODUCTS = gql`
-  query Avtal {
-    products(
-      where: { orderby: { field: MENU_ORDER, order: ASC } }
-      first: 10000
-    ) {
-      edges {
-        node {
-          date
-          excerpt
-          content
-          id
-          productId
-          title
-          slug
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-            }
-          }
-          productCategories {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-          productTags {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-          avtalstyp {
-            valjkund {
-              id
-            }
-            leverantor {
-              ... on Leverantorer {
-                title
-              }
-            }
-          }
-          sok {
-            sokord
-          }
-        }
-      }
-    }
-  }
-`;
+export default function MinaAvtal({ wishList, products }) {
+  const [favorite, setFavorite] = useState(wishList.productIds);
 
-const VIEWER = gql`
-  query viewer {
-    viewer {
-      id
-    }
-  }
-`;
+  useEffect(() => {
+    const data = window.localStorage.getItem("SAVE_FAVORITE");
+    if (data !== null) setFavorite(JSON.parse(data));
+  }, []);
 
-export default function MinaAvtal() {
-  const { data, loading, error } = useQuery(PRODUCTS);
-  const {
-    data: viewerData,
-    loading: viewerLoading,
-    error: viewerError,
-  } = useQuery(VIEWER);
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error.message}</p>;
-
-  if (viewerLoading) return <Loader />;
-  if (viewerError) return <p>Error: {viewerError.message}</p>;
+  useEffect(() => {
+    window.localStorage.setItem("SAVE_FAVORITE", JSON.stringify(favorite));
+  }, [favorite]);
 
   return (
     <>
       <Breadcrumbs />
       <Container>
         <div className="mx-auto max-w-6xl">
-          <h1 className="my-8 text-5xl font-black sm:text-7xl">Mina Avtal</h1>
-          <AvtalUtvalda
-            products={data.products}
-            viewer={viewerData.viewer.id}
-          />
+          <h1 className="my-8 text-6xl font-black leading-tight">Mina Avtal</h1>
+          <AuthContent>
+            <AvtalUtvalda
+              products={products}
+              favorite={favorite}
+              setFavorite={setFavorite}
+            />
+          </AuthContent>
         </div>
       </Container>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const wishList = await getWishList();
+  const products = await getAllAvtal();
+
+  return { props: { wishList, products } };
 }

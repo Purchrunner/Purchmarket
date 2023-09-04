@@ -14,8 +14,22 @@ import PageCover from "../components/page-cover";
 import LatestStories from "../components/latest-stories";
 import AvtalList from "../components/avtal-list";
 import { Toaster } from "react-hot-toast";
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 export default function Index({ allPosts, products, wishList, IndexData }) {
+  const [favorite, setFavorite] = useState(wishList.productIds);
+  const { loggedIn } = useAuth();
+
+  useEffect(() => {
+    const data = window.localStorage.getItem("SAVE_FAVORITE");
+    if (data !== null) setFavorite(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("SAVE_FAVORITE", JSON.stringify(favorite));
+  }, [favorite]);
+
   const { heroText, heroRubrik, heroBild } = IndexData.redigera;
   const {
     omossRubrik,
@@ -65,7 +79,12 @@ export default function Index({ allPosts, products, wishList, IndexData }) {
           </div>
         </Link>
         <Container>
-          <AvtalList rubrik="Inköpsavtal" />
+          <AvtalList
+            rubrik="Inköpsavtal"
+            products={products}
+            favorite={favorite}
+            setFavorite={setFavorite}
+          />
         </Container>
         <Link href="/rapporter">
           <div className="flex w-full items-center bg-[#DFEDFF] py-16">
