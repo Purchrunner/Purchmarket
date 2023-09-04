@@ -7,13 +7,15 @@ import Layout from "../components/layout";
 import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 import Script from "next/script";
-
 const lato = Lato({
 weight: ["400", "700", "900"],
 style: ["normal", "italic"],
 subsets: ["latin"],
 variable: "--font-lato",
 });
+
+
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
