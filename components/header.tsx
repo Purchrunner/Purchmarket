@@ -41,7 +41,8 @@ export default function Header() {
         </Link>
         <div className="flex md:order-2">
           <LoginBtn />
-          <button
+          {/* Check if below code can be removed */}
+          {/* <button
             onClick={handleNavCollapse}
             data-toggle="collapse"
             data-target="#navbar-sticky"
@@ -66,7 +67,7 @@ export default function Header() {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </button>
+          </button> */}
         </div>
         <div
           className={`${

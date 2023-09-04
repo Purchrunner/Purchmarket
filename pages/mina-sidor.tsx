@@ -22,7 +22,7 @@ export default function Profile() {
         <div className="mb-16 flex justify-center">
           <Link
             href="/installningar"
-            className="mr-4 flex items-center rounded-full border border-gray-200 
+            className="mr-4 flex items-center rounded-full border border-gray-200
             bg-white px-8 py-3 font-bold hover:bg-gray-200"
           >
             <Cog8ToothIcon className="mr-2 h-6 w-6 text-gray-900" />
