@@ -64,7 +64,6 @@ export default function AvtalFiltered({
                   slug={item.node.slug}
                   categories={item.node.productCategories}
                   sourceUrl={item.node.featuredImage?.node.sourceUrl}
-                  wishList={wishListData?.getWishList.productIds}
                 />
               );
             } else if (isAllCategory) {
@@ -77,7 +76,6 @@ export default function AvtalFiltered({
                   slug={item.node.slug}
                   categories={item.node.productCategories}
                   sourceUrl={item.node.featuredImage?.node.sourceUrl}
-                  wishList={wishListData?.getWishList.productIds}
                 />
               );
             }
