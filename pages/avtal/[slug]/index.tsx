@@ -1,6 +1,6 @@
 ﻿import Image from "next/image";
 import Container from "../../../components/container";
-import { getAllAvtal, getAvtal, getWishList } from "../../../lib/api";
+import { getAllAvtalMini, getAvtal, getWishList } from "../../../lib/api";
 import FileDownloader from "../../../components/FileDownloader";
 import Link from "next/link";
 import useAuth from "../../../hooks/useAuth";
@@ -333,14 +333,14 @@ export default function AvtalDetail({ product, products, wishList }) {
 
 export async function getStaticProps({ params }) {
   const product = await getAvtal(params.slug);
-  const products = await getAllAvtal();
+  const products = await getAllAvtalMini();
   const wishList = await getWishList();
 
   return { props: { product, products, wishList }, revalidate: 10 };
 }
 
 export async function getStaticPaths() {
-  const avtalWithSlugs = await getAllAvtal();
+  const avtalWithSlugs = await getAllAvtalMini();
   return {
     paths: avtalWithSlugs?.edges.map(({ node }) => `/avtal/${node.slug}`) || [],
     fallback: false,

@@ -169,6 +169,62 @@ export async function getAllAvtal() {
   return data?.products;
 }
 
+
+export async function getAllAvtalMini() {
+  const data = await fetchAPI(`
+    query Avtal {
+      products(where: {orderby: {field: MENU_ORDER, order: ASC}}, first: 10000) {
+        edges {
+          node {
+            date
+            excerpt
+            id
+            productId
+            title
+            slug
+            featuredImage {
+              node {
+                altText
+                sourceUrl
+              }
+            }
+            productCategories {
+              edges {
+                node {
+                  id
+                  name
+                }
+              }
+            }
+            productTags {
+              edges {
+                node {
+                  id
+                  name
+                }
+              }
+            }
+            avtalstyp {
+              valjkund {
+                id
+              }
+              leverantor {
+                ... on Leverantorer {
+                  title
+                }
+              }
+            }
+            sok {
+              sokord
+            }
+          }
+        }
+      }
+    }
+  `);
+  return data?.products;
+}
+
 export async function getAllRapporter() {
   const data = await fetchAPI(`
     query Rapporter {

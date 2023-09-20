@@ -22,7 +22,7 @@ export default function Profile() {
         <div className="mb-16 flex justify-center">
           <Link
             href="/installningar"
-            className="mr-4 flex items-center rounded-full border border-gray-200
+            className="mr-4 flex items-center rounded-full border border-gray-200 
             bg-white px-8 py-3 font-bold hover:bg-gray-200"
           >
             <Cog8ToothIcon className="mr-2 h-6 w-6 text-gray-900" />
@@ -39,26 +39,26 @@ export default function Profile() {
         <div className="mb-16 grid grid-cols-1 gap-8  md:grid-cols-2 lg:grid-cols-4">
           <ProfileCard
             Icon={MinaAvtal}
-            Linkto="/mina-avtal"
-            LinkText="Visa alla Mina Avtal"
-            Title="Mina Avtal"
+            Linkto="/avtal"
+            LinkText="Visa alla inköpsavtal"
+            Title="Hitta inköpsavtal"
           />
           <ProfileCard
             Icon={SparadeAvtal}
             Linkto="/sparade-avtal"
-            LinkText="Visa alla Sparade Avtal"
-            Title="Sparade Avtal"
+            LinkText="Visa alla sparade avtal"
+            Title="Sparade avtal"
           />
           <ProfileCard
             Icon={Rapporter}
             Linkto="/rapporter"
-            LinkText="Visa alla Rapporter"
+            LinkText="Visa alla rapporter"
             Title="Rapporter"
           />
           <ProfileCard
             Icon={KundNummer}
             Linkto="/kundnummer"
-            LinkText="Visa mina Kundnummer"
+            LinkText="Visa mina kundnummer"
             Title="Kundnummer"
           />
         </div>

@@ -5,6 +5,18 @@ import { HomeIcon } from "@heroicons/react/24/outline";
 import Container from "./container";
 
 const convertBreadcrumb = (string) => {
+
+  switch(string){
+    case "installningar":
+      string = "Inställningar";
+      break;
+      case "leverantorer":
+      string = "Leverantörer";
+      break;
+  }
+
+
+
   return string
     .replace(/-/g, " ")
     .replace(/oe/g, "ö")

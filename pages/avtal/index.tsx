@@ -1,7 +1,7 @@
 ﻿import Image from "next/image";
 import Container from "../../components/container";
 import {
-  getAllAvtal,
+  getAllAvtalMini,
   getCategories,
   getHeroAvtal,
   getWishList,
@@ -214,7 +214,7 @@ export default function Avtal({
 }
 
 export async function getStaticProps() {
-  const products = await getAllAvtal();
+  const products = await getAllAvtalMini();
   const allCategories = await getCategories();
   const wishList = await getWishList();
   const heroAvtal = await getHeroAvtal();

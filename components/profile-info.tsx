@@ -13,7 +13,7 @@ export default function profileInfo() {
         height={200}
         className="mb-4 rounded-full"
         alt="arrow right"
-        src={avatar.url}
+        src={avatar.url} 
       />
       <h2 className="text-4xl font-bold">{firstName} {lastName}</h2>
     </div>

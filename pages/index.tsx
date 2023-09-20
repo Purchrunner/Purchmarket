@@ -2,7 +2,7 @@ import Head from "next/head";
 import { GetStaticProps } from "next";
 import Container from "../components/container";
 import {
-  getAllAvtal,
+  getAllAvtalMini,
   getAllPostsForHome,
   getIndex,
   getWishList,
@@ -120,7 +120,7 @@ export default function Index({ allPosts, products, wishList, IndexData }) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPosts = await getAllPostsForHome();
-  const products = await getAllAvtal();
+  const products = await getAllAvtalMini();
   const wishList = await getWishList();
   const IndexData = await getIndex();
 
